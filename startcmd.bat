@@ -1,0 +1,1 @@
+cmd.exe "/A /K ..\parsevenv\Scripts\activate & python run_csv.py"

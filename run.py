@@ -1,7 +1,11 @@
+# -*- coding: cp1251 -*-
 from grab import Grab
 from grab.tools.lxml_tools import drop_node
 import xlwt
 from datetime import datetime
+import csv
+
+inp_list = csv.reader(open("input.csv", "r"))
 
 url = 'http://zakupki.gov.ru/epz/order/quicksearch/update.html?placeOfSearch=FZ_44&_placeOfSearch=on&placeOfSearch=FZ_223&\
             _placeOfSearch=on&placeOfSearch=FZ_94&_placeOfSearch=on&priceFrom=0&priceTo=200+000+000+000&publishDateFrom=&\
@@ -18,7 +22,6 @@ ws = wb.add_sheet('A Test Sheet')
 style0 = xlwt.easyxf('font: name Times New Roman, color-index red, bold on',
     num_format_str='#,##0.00')
 style1 = xlwt.easyxf(num_format_str='D-MMM-YY')
-
 
 page = g.doc.select(xpath)
 for i, element in enumerate(page):

@@ -3,11 +3,15 @@ from grab import Grab
 import urllib
 import csv
 import time
+import os
+import datetime
 
+def ts(): # return timestamp
+	return '[' + str(datetime.datetime.now()) + ']'
 
-def download_csv(word, num):
-    time.sleep(2)
-    res = urllib.quote(word.encode('utf8')) 
+def download_csv(word,df,dt):
+    time.sleep(5)
+    res = urllib.quote(word.encode('utf8'))
 
     url = "".join([
     	"http://zakupki.gov.ru/epz/order/quicksearch/orderCsvSettings/quickSearch/download.html?",
@@ -16,8 +20,8 @@ def download_csv(word, num):
     	"&placeOfSearch=FZ_94&_placeOfSearch=on",
     	"&priceFrom=0",
     	"&priceTo=200+000+000+000",
-    	"&publishDateFrom=13.11.2015",
-    	"&publishDateTo=14.11.2015",
+    	"&publishDateFrom=", df,
+    	"&publishDateTo=14.11.2015", dt,
     	"&updateDateFrom=",
     	"&updateDateTo=",
     	"&orderStages=AF&_orderStages=on",
@@ -40,8 +44,8 @@ def download_csv(word, num):
 
     g = Grab()
     g.go(url)
-    g.response.save("static/" + str(num) + ".csv")
-
+    # g.response.save("static/" + str(num) + ".csv")
+    return g.response.body
 
 def read_inplist():
     res_line = ''
@@ -51,11 +55,21 @@ def read_inplist():
     f.close()
     return unicode(res_line, "utf8").split('\n')
 
-inp_list = read_inplist()
+
+yesterday = (datetime.date.today() - datetime.timedelta(1)).strftime("%d.%m.%Y")
+today = datetime.date.today().strftime("%d.%m.%Y")
+inplist = read_inplist()
+length = len(inplist)
 
 
-for i, inp_word in enumerate(inp_list):
-    download_csv(inp_word, i)
-    print "static/" + str(i) + ".csv was successfully downloaded"
+print "[" + str(length) + " files]      wait about", str(6*length), "seconds"
+f = open("result_file.csv", "w")
+for i, inp_word in enumerate(inplist):
+	f.write(download_csv(inp_word, yesterday, today))
+	f.write("\n")
+	print ts(), "csv file", str(i+1), "(from", length, ") was successfully downloaded"
 
-##print inp_list[0].encode('utf8')
+# f = open("bigfile.txt", "w")
+# for tempfile in os.listdir("static/"):
+#     f.write(tempfile.read())
+#     os.remove(tempfile)

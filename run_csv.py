@@ -9,8 +9,8 @@ import datetime
 def ts(): # return timestamp
 	return '[' + str(datetime.datetime.now()) + ']'
 
-def download_csv(word,df,dt):
-    time.sleep(5)
+def download_csv(word,df,dt,sec):
+    time.sleep(sec)
     res = urllib.quote(word.encode('utf8'))
 
     url = "".join([
@@ -60,12 +60,12 @@ yesterday = (datetime.date.today() - datetime.timedelta(1)).strftime("%d.%m.%Y")
 today = datetime.date.today().strftime("%d.%m.%Y")
 inplist = read_inplist()
 length = len(inplist)
+delta = 1
 
-
-print "[" + str(length) + " files]      wait about", str(6*length), "seconds"
+print "[" + str(length) + " files]      wait about:", str(datetime.timedelta(seconds=delta*length))
 f = open("result_file.csv", "w")
 for i, inp_word in enumerate(inplist):
-	f.write(download_csv(inp_word, yesterday, today))
+	f.write(download_csv(inp_word, yesterday, today, delta))
 	f.write("\n")
 	print ts(), "csv file", str(i+1), "(from", length, ") was successfully downloaded"
 

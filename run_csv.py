@@ -55,7 +55,7 @@ def read_inplist():
     f.close()
     return unicode(res_line, "utf8").split('\n')
 
-path = os.path.abspath(os.path.dirname(__file__)) + "/../gh-crappy/parse"
+path = os.path.abspath(os.path.dirname(__file__)) + "/../gh-crappy/parse/"
 yesterday = (datetime.date.today() - datetime.timedelta(1)).strftime("%d.%m.%Y")
 today = datetime.date.today().strftime("%d.%m.%Y")
 inplist = read_inplist()

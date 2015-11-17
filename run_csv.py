@@ -49,13 +49,13 @@ def download_csv(word,df,dt,sec):
 
 def read_inplist():
     res_line = ''
-    f = open('input.txt', 'rb')
+    f = open(path + 'input.txt', 'rb')
     for line in f:
         res_line += line
     f.close()
     return unicode(res_line, "utf8").split('\n')
 
-
+path = os.path.abspath(os.path.dirname(__file__)) + "/../gh-crappy/parse"
 yesterday = (datetime.date.today() - datetime.timedelta(1)).strftime("%d.%m.%Y")
 today = datetime.date.today().strftime("%d.%m.%Y")
 inplist = read_inplist()
@@ -63,7 +63,7 @@ length = len(inplist)
 delta = 1
 
 print "[" + str(length) + " files]      wait about:", str(datetime.timedelta(seconds=delta*length))
-f = open("result_file.csv", "w")
+f = open(path + "result_file.csv", "w")
 for i, inp_word in enumerate(inplist):
 	f.write(download_csv(inp_word, yesterday, today, delta))
 	f.write("\n")

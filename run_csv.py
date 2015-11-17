@@ -63,7 +63,7 @@ length = len(inplist)
 delta = 1
 
 print "[" + str(length) + " files]      wait about:", str(datetime.timedelta(seconds=delta*length))
-f = open(path + "result_file.csv", "w")
+f = open(path + "media/result_file.csv", "w")
 for i, inp_word in enumerate(inplist):
 	f.write(download_csv(inp_word, yesterday, today, delta))
 	f.write("\n")
